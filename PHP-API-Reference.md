@@ -1,43 +1,33 @@
-**Gateway PHP Module API**
-
+# Gateway PHP Module API
 **( Version 1.0, 2016.08.23 )**
 
-
-
-[[TOC]]
-
-1. 개요
+## 1. 개요
 
 ![image alt text](image_0.png)
 
-PallyCon 서비스 사용 시 pack rule 발급, license rule 발급, application 연동에 필요한 Gateway 페이지를 구성는데 사용 가능한 module 이다.
+PallyCon 서비스 사용 시 pack rule 발급, 라이선스 발급, 어플리케이션 연동에 필요한 Gateway 페이지를 구성할 수 있는 모듈입니다.
 
-1. licenseGateway :  Application 에서 컨텐츠 재생 요청 시 라이센스 룰 발급을 위해 PallyCon license server에서는 licenseGateway 페이지로 license Rule 정보를 요청하게 된다.
+1. licenseGateway : 어플리케이션에서 콘텐츠 재생 요청 시 라이센스 발급을 위해 PallyCon 라이선스 서버에서는 licenseGateway 페이지로 license Rule 정보를 요청합니다.
+2. packageGateway : 패키져에서 콘텐츠의 DRM 패키징 시 사용될 키 정보를 PallyCon 라이선스 서버에서는 packageGateway 페이지로 키 정보를 요청합니다.
 
-2. packageGateway : 패키져에서 컨텐츠 DRM 패키징 시 사용될 key 정보를 PallyCon license server에서는 packageGateway 페이지로 키 정보를 요청하게 된다.
-
-2. API 
+## 2. API 
 
 ## Class Gateway
+gateway로 요청된 데이터의 파싱과 응답 데이터 생성에 사용할 수 있습니다.
 
-	gateway 에 넘어온 data parsing 과 response data를 생성하는데 사용할 수 있다.
-
-1. file path 
-
+### 1. file path 
 : libs/gateway.php
 
-2. Method 
+### 2. Method 
 
 #### __construct ( string $siteKey )
-
 생성자, 전달받은 siteKey를 이용해 aes 암복호화 객체를 생성.
 
-#### *string *createErrorTemplete ( string $errorCode, string $errorMessage )
-
+#### *string* createErrorTemplete ( string $errorCode, string $errorMessage )
 error response 규격에 맞춰서 값을 생성한다.
 
-**	Parameter**
-
+**Parameter**
+```
 <table>
   <tr>
     <td>type</td>
@@ -50,14 +40,12 @@ error response 규격에 맞춰서 값을 생성한다.
     <td>사이트 생성시 발급된 site key</td>
   </tr>
 </table>
+```
 
+**Return** *string*
 
-	**Return ***string*
-
-*	*
-
-*	Example.*
-
+*Example*
+```
 <table>
   <tr>
     <td>
@@ -75,16 +63,13 @@ echo "<br/> before encrypt value : ". $gateway->getErrorInfo();
 </td>
   </tr>
 </table>
-
-
-*	*
+```
 
 #### *string* createLicenseRule ( GatewayDTO $gatewayDTO )
-
- 	license rule 연동 response 규격에 맞춰서 값을 생성한다.
+license rule 연동 response 규격에 맞춰서 값을 생성한다.
 
 **Parameter**
-
+```
 <table>
   <tr>
     <td>type</td>
@@ -97,12 +82,12 @@ echo "<br/> before encrypt value : ". $gateway->getErrorInfo();
     <td>license rule 발급을 위해 setting 가능한 DTO 객체</td>
   </tr>
 </table>
+```
 
+**Return** *string*
 
-**Return ***string*
-
-*Example.*
-
+*Example*
+```
 <table>
   <tr>
     <td>
@@ -124,14 +109,13 @@ echo "<br/> before encrypt value : ". $gateway->getLicenseRule();
 </td>
   </tr>
 </table>
-
+```
 
 #### *string* createPackageInfo ( GatewayDTO $gatewayDTO )
-
- 	package 연동 response 규격에 맞춰서 값을 생성한다.
+package 연동 response 규격에 맞춰서 값을 생성한다.
 
 **Parameter**
-
+```
 <table>
   <tr>
     <td>type</td>
@@ -144,12 +128,12 @@ echo "<br/> before encrypt value : ". $gateway->getLicenseRule();
     <td>license rule 발급을 위해 setting 가능한 DTO 객체</td>
   </tr>
 </table>
+```
 
+**Return** *string*
 
-**Return ***string*
-
-*Example.*
-
+*Example*
+```
 <table>
   <tr>
     <td>
@@ -171,90 +155,76 @@ echo "<br/> before encrypt value : ". $gateway->getPackInfo();
 </td>
   </tr>
 </table>
+```
 
-
-#### *string *getCid ()
-
+#### *string* getCid ()
 parseRequestLicense method 실행 시 파싱하여 세팅 되었던 cid 값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *string *getDeviceId ()
-
+#### *string* getDeviceId ()
 parseRequestLicense method 실행 시 파싱하여 세팅 되었던 device_id 값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *string *getDeviceType ()
-
+#### *string* getDeviceType ()
 parseRequestLicense method 실행 시 파싱하여 세팅 되었던 device_type 값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *string *getDrmType ()
+#### *string* getDrmType ()
+parseRequestLicense method 실행 시 파싱하여 세팅 되었던 drm_type 값을 가져온다.
 
-	parseRequestLicense method 실행 시 파싱하여 세팅 되었던 drm_type 값을 가져온다.
+#### *string* getErrorInfo()
+createErrorTemplate method 실행 시 암호화 되기 전 json 값을 가져온다.
 
-#### *string *getErrorInfo()
+**Return** *string*
 
-	createErrorTemplate method 실행 시 암호화 되기 전 json 값을 가져온다.
-
-**Return ***string*
-
-#### *string *getFileName ()
-
+#### *string* getFileName ()
 parseRequestPackage method 실행시 파싱하여 세팅 되었던 file_name값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *string *getFilePath ()
+#### *string* getFilePath ()
+parseRequestPackage method 실행시 파싱하여 세팅 되었던 file_path값을 가져온다.
 
-	parseRequestPackage method 실행시 파싱하여 세팅 되었던 file_path값을 가져온다.
+**Return** *string*
 
-**Return ***string*
+#### *string* getLicenseRule ()
+createLicenseRule method 실행 시 암호화 되기전 json 값을 가져온다.
 
-#### *string *getLicenseRule ()
+**Return** *string*
 
-	createLicenseRule method 실행 시 암호화 되기전 json 값을 가져온다.
-
-**Return ***string*
-
-#### *string *getNonce ()
-
+#### *string* getNonce ()
 parseRequestLicense, parseRequestPakcage method 실행 시 파싱하여 세팅 되었던 nonce값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *string *getOid ()
+#### *string* getOid ()
+parseRequestLicense method 실행 시 파싱하여 세팅 되었던 oid값을 가져온다.
 
-	parseRequestLicense method 실행 시 파싱하여 세팅 되었던 oid값을 가져온다.
+**Return** *string*
 
-**Return ***string*
-
-#### *string *getPackInfo ()
-
+#### *string* getPackInfo ()
 createPackageInfo method 실행 시 암호화 되기전 json 값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *string *getSiteKey ()
+#### *string* getSiteKey ()
+객체 생성 시 입력한 site key 값을 가져온다.
 
- 	객체 생성 시 입력한 site key 값을 가져온다.
+**Return** *string*
 
-**Return ***string*
-
-#### *string *getUserId ()
-
+#### *string* getUserId ()
 parseRequestLicense method 실행 시 파싱하여 세팅 되었던 user_id값을 가져온다.
 
-**Return ***string*
+**Return** *string*
 
-#### *bool *parseRequestLicense ( string $requestData )
-
+#### *bool* parseRequestLicense ( string $requestData )
 license rule 연동 시 request data를 파싱 처리 한다.
 
 **Parameter**
-
+```
 <table>
   <tr>
     <td>type</td>
@@ -267,12 +237,12 @@ license rule 연동 시 request data를 파싱 처리 한다.
     <td>license rule 정보 요청을 위해 gateway 로 전달되어온 data parameter 값</td>
   </tr>
 </table>
+```
 
+**Return** *bool*
 
-**Return ***bool*
-
-*Example.*
-
+*Example*
+```
 <table>
   <tr>
     <td>
@@ -300,14 +270,13 @@ echo "drm_type : " . $gateway->getDrmType() . "<br/>";
 </td>
   </tr>
 </table>
+```
 
-
-#### *bool *parseRequestPackage ( string $requestData )
-
+#### *bool* parseRequestPackage ( string $requestData )
 package 연동 시 request data를 파싱 처리 한다.
 
 **Parameter**
-
+```
 <table>
   <tr>
     <td>type</td>
@@ -320,12 +289,12 @@ package 연동 시 request data를 파싱 처리 한다.
     <td>package key 정보 요청을 위해 gateway 로 전달되어온 data parameter 값</td>
   </tr>
 </table>
+```
 
+**Return** *bool*
 
-**Return ***bool*
-
-*Example.*
-
+*Example*
+```
 <table>
   <tr>
     <td>
@@ -346,110 +315,104 @@ echo "file_path : " . $gateway->getFilePath() . "<br/>";
 </td>
   </tr>
 </table>
-
+```
 
 ## Class GatewayDTO
+gateway 와의 통신에 필요한 data 객체. getter와 setter로 구성되어 있다.
 
-	gateway 와의 통신에 필요한 data 객체. getter와 setter로 구성되어 있다.
-
-1. file path 
-
+### 1. file path 
 : libs/gatewayDTO.php
 
-2. Method 
+### 2. Method 
 
 #### __construct ()
-
 생성자
 
 #### *Getter*
 
-#### *bool *getAllowExternalDisplay()
+#### *bool* getAllowExternalDisplay()
 
-#### *bool** *getAllowMobileAbnormalDevice()
+#### *bool* getAllowMobileAbnormalDevice()
 
-#### string getCid()
+#### *string* getCid()
 
-#### *string *getCek()
+#### *string* getCek()
 
-#### *string *getControlHdcp()   
+#### *string* getControlHdcp()   
 
 #### *integer* getDuration()
 
-#### *string *getExpireDate()
+#### *string* getExpireDate()
 
-#### *bool *getHardwareDrm()
+#### *bool* getHardwareDrm()
 
-#### *string *getHlsAesKey()
+#### *string* getHlsAesKey()
 
-#### *string *getHlsAesIv()
+#### *string* getHlsAesIv()
 
-#### *bool *getLimit()
+#### *bool* getLimit()
 
-#### *string *getMpegCencKey()   
+#### *string* getMpegCencKey()   
 
-#### *string *getMpegCencKeyId()
+#### *string* getMpegCencKeyId()
 
-#### *string *getMpegCencIv()
+#### *string* getMpegCencIv()
 
-#### *string *getNonce()
+#### *string* getNonce()
 
-#### *bool *getPersistent()   
+#### *bool* getPersistent()   
 
-#### *string *getResponseUserId()
+#### *string* getResponseUserId()
 
 #### *Setter*
 
-#### *void *setAllowExternalDisplay($allowExternalDisplay)
+#### *void* setAllowExternalDisplay($allowExternalDisplay)
 
-#### *void *setAllowMobileAbnormalDevice($allowMobileAbnormalDevice)   
+#### *void* setAllowMobileAbnormalDevice($allowMobileAbnormalDevice)   
 
-#### *void *setCid($cid)
+#### *void* setCid($cid)
 
-#### *void *setCek($cek)
+#### *void* setCek($cek)
 
-#### *void *setControlHdcp($controlHdcp)
+#### *void* setControlHdcp($controlHdcp)
 
-#### *void *setDuration($duration)
+#### *void* setDuration($duration)
 
-#### *void *setExpireDate($expireDate)
+#### *void* setExpireDate($expireDate)
 
-#### *void *setHardwareDrm($hardwareDrm)
+#### *void* setHardwareDrm($hardwareDrm)
 
-#### *void *setHlsAesKey($hlsAesKey)
+#### *void* setHlsAesKey($hlsAesKey)
 
-#### *void *setHlsAesIv($hlsAesIv)
+#### *void* setHlsAesIv($hlsAesIv)
 
-#### *void *setLimit($limit)
+#### *void* setLimit($limit)
 
-#### *void *setMpegCencKey($mpegCencKey)
+#### *void* setMpegCencKey($mpegCencKey)
 
-#### *void *setMpegCencKeyId($mpegCencKeyId)
+#### *void* setMpegCencKeyId($mpegCencKeyId)
 
-#### *void *setMpegCencIv($mpegCencIv)
+#### *void* setMpegCencIv($mpegCencIv)
 
-#### *void *setNonce($nonce)
+#### *void* setNonce($nonce)
 
-#### *void *setPersistent($persistent)
+#### *void* setPersistent($persistent)
 
-#### *void *setResponseUserId($responseUserId)
+#### *void* setResponseUserId($responseUserId)
 
 ## Class Aes
-
 aes256(CBC) 암호화 모듈.
 
-1. file path
-
+### 1. file path
 : libs/aes256.php
 
-2. method
+### 2. method
 
-#### 	*string *encrypt( $value )
-
-	aes256 (CBC) encrypt -> base64 encode 된 값을  리턴한다.
+#### *string* encrypt( $value )
+aes256 (CBC) encrypt -> base64 encode 된 값을  리턴한다.
 
 **Parameter**
-
+```
 <table>
   <tr>
     <td>type</td>
@@ -462,12 +425,12 @@ aes256(CBC) 암호화 모듈.
     <td>암호화 하기 위한 값</td>
   </tr>
 </table>
+```
 
+**Return** *string*
 
-**Return ***string*
-
-*	Example.*
-
+*Example*
+```
 <table>
   <tr>
     <td>
@@ -488,14 +451,13 @@ echo "decrypt data : ". $decData . "<br/>";
 </td>
   </tr>
 </table>
+```
 
-
-#### 	*string *decrypt( $value )
-
-	base64 decode -> aes256 (CBC) decrypt -> 된 값을  리턴한다.
+#### *string* decrypt( $value )
+base64 decode -> aes256 (CBC) decrypt -> 된 값을  리턴한다.
 
 **Parameter**
-
+```
 <table>
   <tr>
     <td>type</td>
@@ -508,9 +470,9 @@ echo "decrypt data : ". $decData . "<br/>";
     <td>암호화를 풀기 위한 값</td>
   </tr>
 </table>
+```
 
+**Return** *string*
 
-**Return ***string*
-
-*Example. : encrypt sample 참조.*
+*Example : encrypt sample 참조*
 
